@@ -169,8 +169,8 @@ module Dragonfly
       ext = opts[:ext] || self.ext
       should_escape = opts[:escape] != false
       tempfile = Utils.new_tempfile(ext)
-      old_path = should_escape ? shell.quote(path) : path
-      new_path = should_escape ? shell.quote(tempfile.path) : tempfile.path
+      old_path = should_escape ? Shellwords.shellescape(path) : path
+      new_path = should_escape ? Shellwords.shellescape(tempfile.path) : tempfile.path
       command = yield(old_path, new_path)
       run(command, :escape => should_escape)
       update(tempfile)
